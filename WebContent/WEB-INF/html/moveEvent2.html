@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Zombies</title>
+<style>
+
+canvas {border: 5px solid magenta;}
+body{overflow: hidden;} <!--바디 내 스크롤바를 없애줌-->
+
+</style>
+</head>
+<body>
+	<canvas id="canvas" width="1000" height="500">
+	</canvas>
+	<script>
+		var canvas;
+		var ctx;
+
+		//player 시작 좌표계
+		var x = 150;
+		var y = 100;
+
+		//zombie 시작 좌표계
+		var xx = 300;
+		var yy = 200;
+
+		var HPgauge1 = 80; 					// HP 초록색 게이지
+		var HPgauge2 = 0; 					// HP 빨강색 게이지
+		var HPCol1 = "green";
+		var HPCol2 = "red";
+		
+		var keyPressed = [];
+
+		var player = new Image();
+		player.src = "http://mblogthumb3.phinf.naver.net/20150205_250/ejpajama_1423145118503oL3yq_PNG/%B4%DC%B9%AB%C1%F613.png?type=w2";
+
+		var zom01 = new Image();
+		zom01.src = "../img/Zombie2.png"
+
+		var Event_die = new Image();
+		Event_die.src = "../img/youdied.png"
+
+		window.onload = function() {
+			canvas = document.getElementById("canvas");
+			if (canvas == null || canvas.getContext == null)
+				return;
+			ctx = canvas.getContext("2d");
+
+			draw();
+			draw2();
+			drawHP();
+
+			setInterval(update, 30);
+		}
+
+		window.onkeydown = function(e) 
+		{	keyPressed[e.keyCode] = true;	}
+
+		window.onkeyup = function(e) 
+		{	keyPressed[e.keyCode] = false;	}
+
+		
+		
+		function update() {
+			var press = false;
+			
+			if (keyPressed[38]) 
+			{	y -= 10;	press = true;	} // 상
+			
+			if (keyPressed[40]) 
+			{	y += 10;	press = true;	} // 하
+			
+			if (keyPressed[37]) 
+			{	x -= 10;	press = true;	} // 좌
+			
+			if (keyPressed[39]) 
+			{	x += 10;	press = true;	} // 우
+			
+
+			if (press) 
+			{
+				fight();
+				draw();
+				draw2();
+				drawHP();
+				drawHP2();
+				zombie_move();
+
+				if (HPgauge2 <= -80) 
+					died();
+			}
+		}// update function
+
+		
+		function draw() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(player, x, y, 70, 100);
+			//ctx.arc(x, y, 25, 0, 2*Math.PI); // 좌표계 , 원의 크기
+			ctx.stroke();
+		}
+
+		function draw2() {
+			//ctx2.clearRect(0, 0, canvas.width, canvas.height);  // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(zom01, xx, yy, 70, 100);
+			ctx.stroke();
+		}
+
+		function drawHP() {
+			ctx.fillStyle = HPCol1;
+			ctx.fillRect(x - 5, y - 15, HPgauge1, 10);
+		}
+
+		function drawHP2() {
+			ctx.fillStyle = HPCol2;
+			ctx.fillRect(x + 75, y - 15, HPgauge2, 10);
+		}
+
+		function died() {
+			//ctx2.clearRect(0, 0, canvas.width, canvas.height);  // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(Event_die, x - 210, y - 120, 500, 100);
+			ctx.stroke();
+		}
+
+		
+		function fight() {
+
+			if ( Math.abs(x-xx)< 57 )				// 좀비와의 x축 좌표가 거의 닿으면
+				if ( Math.abs(y-yy) < 90) 		// 좀비와의 y축 좌표가 거의 닿으면
+				{
+					console.log("부딪힘");
+					if (HPgauge2 > -80)
+						HPgauge2 -= 2;
+
+					if (HPgauge1 > 0)
+						HPgauge1 -= 2;
+					}
+		}
+
+		function zombie_move() {
+			
+			if (xx > x) 		// 좀비가 플레이어의 오른쪽에 있으면,
+			{	xx -= 3;	} 
+			else if(Math.abs(xx - x) < 3) // 위치 보정
+			{	x = xx;	} 
+			else if(xx < x) 
+			{	xx += 3;	}
+
+			if (yy > y) 		// 좀비가 플레이어의 오른쪽에 있으면,
+			{	yy -= 3;	} 
+			else if(Math.abs(yy - y) < 3)  // 위치 보정
+			{	y = yy;		} 
+			else if (yy < y) 
+			{	yy += 3;	}		
+		}
+		
+
+	</script>
+</body>
+</html>

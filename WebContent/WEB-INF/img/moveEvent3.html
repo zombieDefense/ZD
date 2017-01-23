@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Zombies</title>
+<style>
+
+canvas {border: 5px solid white;}
+body{overflow: hidden;} <!--바디 내 스크롤바를 없애줌-->
+
+</style>
+</head>
+<body>
+
+	<canvas id="canvas" width="1200" height="750">
+	</canvas>
+	<script>
+		var canvas;
+		var ctx;
+		
+		//player 시작 좌표계
+		var x = 580;
+		var y = 325;
+
+		//zombie 시작 좌표계
+		var xx = 500;
+		var yy = 500;
+
+		var HPgauge1 = 80; 					// HP 초록색 게이지
+		var HPgauge2 = 0; 					// HP 빨강색 게이지
+		var HPCol1 = "green";
+		var HPCol2 = "red";
+		
+		var keyPressed = [];
+
+		var player = new Image();
+		player.src = "http://mblogthumb3.phinf.naver.net/20150205_250/ejpajama_1423145118503oL3yq_PNG/%B4%DC%B9%AB%C1%F613.png?type=w2";
+
+		var zom01 = new Image();
+		zom01.src = "../Project/Zombie2.png"
+		
+		var ui_interface = new Image();
+		ui_interface.src = "../Project/map.svg"
+		// ui_interface.src = "../Project/UI2.png"
+		
+		var ui_interface2 = new Image();
+		ui_interface2.src = "../Project/UI2.png";
+
+		var Event_die = new Image();
+		Event_die.src = "../Project/youdied.png"
+
+		window.onload = function() {
+			canvas = document.getElementById("canvas");
+			if (canvas == null || canvas.getContext == null)
+				return;
+			ctx = canvas.getContext("2d");
+
+			draw_background();
+			draw_background2();
+			draw_player();
+			draw_zombies();
+			drawHP();
+
+			setInterval(update, 30);
+		}
+
+		window.onkeydown = function(e) 
+		{	keyPressed[e.keyCode] = true;	}
+
+		window.onkeyup = function(e) 
+		{	keyPressed[e.keyCode] = false;	}
+
+		setInterval(zombie_move(), 30);
+		
+		function update() {
+			var press = false;
+			
+			
+			if (keyPressed[38]) 
+			{	y -= 3;	press = true;	} // 상
+			
+			if (keyPressed[40]) 
+			{	y += 3;	press = true;	} // 하
+			
+			if (keyPressed[37]) 
+			{	x -= 3;	press = true;	} // 좌
+			
+			if (keyPressed[39]) 
+			{	x += 3;	press = true;	} // 우
+			
+
+			if (press) 
+			{
+				draw_background();
+				draw_background2();
+				fight();
+				draw_player();
+				draw_zombies();
+				drawHP();
+				drawHP2();
+				zombie_move();
+
+				if (HPgauge2 <= -80) 
+					died();
+			}
+		}// update function
+
+		function draw_player() {
+			//ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(player, x, y, 70, 100);
+			//ctx.arc(x, y, 25, 0, 2*Math.PI); // 좌표계 , 원의 크기
+			ctx.stroke();
+		}
+
+		function draw_zombies() {
+			//ctx2.clearRect(0, 0, canvas.width, canvas.height);  // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(zom01, xx, yy, 70, 100);
+			ctx.stroke();
+		}
+		
+		function draw_background() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			//ctx2.clearRect(0, 0, canvas.width, canvas.height);  // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(ui_interface, ((-x)-1000), ((-y)-1000),5000,5000);
+			ctx.stroke();
+		}
+		
+		function draw_background2() {
+			//ctx.clearRect(0, 0, canvas.width, canvas.height);
+			//ctx2.clearRect(0, 0, canvas.width, canvas.height);  // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(ui_interface2, 0, 0, 1200, 750);
+			ctx.stroke();
+		}
+
+		function drawHP() {
+			ctx.fillStyle = HPCol1;
+			ctx.fillRect(x - 5, y - 15, HPgauge1, 10);
+		}
+
+		function drawHP2() {
+			ctx.fillStyle = HPCol2;
+			ctx.fillRect(x + 75, y - 15, HPgauge2, 10);
+		}
+
+		function died() {
+			//ctx2.clearRect(0, 0, canvas.width, canvas.height);  // 캔버스를 깔끔한 상태로 유지보수
+			ctx.beginPath();
+			ctx.drawImage(Event_die, x - 210, y - 120, 500, 100);
+			ctx.stroke();
+		}
+
+		
+		function fight() {
+
+			if ( Math.abs(x-xx) < 57 )				// 좀비와의 x축 좌표가 거의 닿으면
+				if ( Math.abs(y-yy) < 90) 		// 좀비와의 y축 좌표가 거의 닿으면
+				{
+					console.log("부딪힘");
+					if (HPgauge2 > -80)
+						HPgauge2 -= 2;
+
+					if (HPgauge1 > 0)
+						HPgauge1 -= 2;
+				}
+		}
+
+		function zombie_move() {
+			var speed = parseInt(Math.random()*8);
+			if (xx > x) 		// 좀비가 플레이어의 오른쪽에 있으면,
+			{	xx -= 1;	} 
+			else if(Math.abs(xx-x)<3) // 위치 보정
+			{	x = xx;		} 
+			else if(xx < x) 
+			{	xx += 1;	}
+
+			if (yy > y) 		// 좀비가 플레이어의 오른쪽에 있으면,
+			{	yy -= 1;	} 
+			else if(Math.abs(yy-y)<3)  // 위치 보정
+			{	y = yy;		} 
+			else if (yy < y) 
+			{	yy += 1;	}		
+		}
+		
+		/*  
+			무빙이 똑똑한 좀비
+			else if(Math.abs(xx-x)<3)  // 위치 보정
+			{	xx = x;		} 
+			else if(Math.abs(yy-y)<3)  // 위치 보정
+			{	yy = y;		} 
+		*/
+		
+
+	</script>
+</body>
+</html>
