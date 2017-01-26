@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function() {
+
+	}
+</script>
+
+
+<style>
+body {
+	height: 900px;
+	width: 1600px;
+	position: relative;
+	left: 50%;
+	margin-left: -800px;
+	margin-top: 50px;
+}
+
+.info {
+	height: 15%;
+	width: 100%;
+	background: lightpink;
+}
+
+#face {
+	width: 30%;
+	height: 100%;
+	float: left;
+	background: lime;
+	border-style: solid;
+}
+
+#faceimg {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 15px;
+	top: 15px;
+}
+
+#day {
+	width: 622px;
+	height: 100%;
+	float: left;
+	background: pink;
+	border-style: solid;
+}
+
+#slot {
+	width: 30%;
+	height: 100%;
+	float: left;
+	background: yellow;
+	border-style: solid;
+}
+
+#hp {
+	width: 300px;
+	height: 30px;
+	background: red;
+	position: absolute;
+	left: 145px;
+	top: 35px;
+}
+
+#mp {
+	width: 300px;
+	height: 30px;
+	background: blue;
+	position: absolute;
+	left: 145px;
+	top: 75px;
+}
+
+#clock {
+	position: absolute;
+	left: 750px;
+}
+
+button {
+	width: 60px;
+	height: 120px;
+	position: absolute;
+	top: 8px;
+}
+
+#lq {
+	width: 80px;
+	height: 120px;
+	position: absolute;
+	left: 1415px;
+	top: 8px;
+}
+
+#rq {
+	width: 80px;
+	height: 120px;
+	position: absolute;
+	left: 1505px;
+	top: 8px;
+}
+
+.play {
+	height: 85%;
+	width: 100%;
+	align: center;
+	background: skyblue;
+	border-style: solid;
+}
+
+</style>
+</head>
+<body>
+
+	<!-- 정보창 -->
+	<div class="info">
+
+		<div id="face">
+			<img id="faceimg" src="./test.png">
+			<form>
+				<div id="hp"></div>
+				<div id="mp"></div>
+			</form>
+		</div>
+		<div id="day">
+			<img id="clock" src="./test.png">
+		</div>
+		<div id="slot">
+			<button style="left: 1130px;">정보</button>
+			<button style="left: 1200px;">인벤</button>
+			<button style="left: 1270px;">기술</button>
+			<button style="left: 1340px;">미니맵</button>
+			<img id="lq" src="./test.png"> <img id="rq" src="./test.png">
+		</div>
+
+	</div>
+
+
+	<!-- 게임화면 -->
+	<div class="play">map</div>
+
+</body>
+</html>
