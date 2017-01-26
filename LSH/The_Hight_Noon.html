@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+var day = 1; // 날자 구분
+var ap = "낮"; // 밤낮 구분
+var now_time = 0; // 현재시간
+var last_time = 30; // 밤/낮 남은 시간 
+
+// 시간 계산
+setInterval(function () {
+	now_time++;
+	last_time--;
+	document.getElementById("time").innerHTML = now_time+"  "+last_time+"  "+day;
+	if(now_time==30){
+		ap="밤";
+		document.getElementById("ap").innerHTML = ap;
+		
+		last_time=30;
+	}
+	if(now_time==60){
+		ap="낮";
+		document.getElementById("ap").innerHTML = ap;
+		
+		last_time=30;
+		day++;
+		now_time=0;
+	}
+},1000)
+
+
+
+
+</script>
+</head>
+<body>
+<div align="center">
+<d id="ap">낮</d><br>
+<d id="time">0 30 1</d>
+<img src="../P02_Survival/map.svg" width="800" height="800">
+
+
+</div>
+
+</body>
+</html>
