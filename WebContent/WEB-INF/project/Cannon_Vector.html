@@ -1,0 +1,234 @@
+<!DOCTYPE html> 
+<html>
+<head> 
+<meta charset="utf-8">
+ 
+<script type="text/javascript" >
+    window.onload = function() {
+        var gameObjects = [],
+            canvas = document.getElementById('canvas'),
+            ctx = canvas.getContext('2d');
+ 
+ 
+var vector2d = function (x, y) {
+ 
+	var vec = {
+			//벡터의 x, y 값을 vx, vy에 저장한다.
+			vx : x,
+			vy : y,
+	 
+			//scale() 메소드를 사용하면 벡터의 크기를
+			//줄이거나 늘릴 수 있다.
+			scale : function(scale){
+				vec.vx *= scale;
+				vec.vy *= scale;
+			},
+	 
+			//add() 메소드는 벡터를 더한다.
+			add : function(vec2){
+				vec.vx += vec2.vx;
+				vec.vx += vec2.vx;
+			},
+	 
+			//sub() 메소드는 벡터를 뺸다.
+			sub : function(vec2){
+				vec.vx -= vec2.vx;
+				vec.vx -= vec2.vx;
+			},
+	 
+			//negate() 메소드는 벡터의 방향을 반대로 바꾼다.
+			negate : function(){
+				vec.vx = -vec.vx;
+				vec.vx = -vec.vx;
+			},
+	 
+			//length() 메소드는 피타고라스 정리로 구한 벡터의 길이를 반환한다.
+			length : function(){
+				return Math.sqrt(vec.vx * vec.vx + vec.vy * vec.vy);
+			},
+	 
+			//벡터의 길이를 반환하는데 더 빠른 계산법
+			//벡터의 길이를 비교할 때 유용하다.
+			lengthSquared : function(){
+				return vec.vx * vec.vx + vec.vy * vec.vy;
+			},
+	 
+			//normalize() 메소드는 이 벡터와 같은 방향을 가리키다.
+			//단위 벡터로 바꾼다.
+			normalize : function(){
+				var len = Math.sqrt(vec.vx * vec.vx + vec.vy * vec.vy);
+				if(len){
+					vec.vx /= len;
+					vec.vy /= len;
+				}
+	 
+				//앞서 벡터의 길이를 계산할 때처럼
+				//유용하게 사용될 수 있는 값을 반환한다.
+				return len;
+			},
+	 
+			//라디안으로 설정된 각만큼 벡터를 회전시킨다.
+			rotate : function(){
+				var vx = vex.vx,
+				    vy = vec.vy.
+				    cosVal = Math.cos(angle);
+				    sinVal = Math.sin(angle);
+				vec.vx = vx * cosVal - vy * sinVal;
+				vec.vy = vx * sinVal - vy * cosVal;
+			},
+	 
+			//toString()은 벡터를 텍스트로 표현하는 함수다.
+			//디버깅할 때 유용하다.
+			toString : function(){
+				return '(' + vec.vx.toFixed(3) + ',' + vec.vy.toFixed(3) + ')';
+			}
+		};
+		return vec;
+	};
+ 
+	var cannonBall = function (x, y, vector) {
+	    var gravity = 0,
+	        that = {
+	            x: x,                   // x의 초기 위치
+	            y: y,                   // y의 초기 위치
+	            removeMe: false,        // 제거할 것인지 알려주는 플래그
+	 
+	            // move() 메소드는 위치와 속도를 업데이트하고
+	            // 대포알이 땅에 부딪혔는지 확인한다.
+	            move: function () {
+	                vector.vy += gravity;   // 수직 속도에 중력을 더한다.
+	                gravity += 0.1;         // 중력을 증가시킨다.
+	                that.x += vector.vx;    // 위치에 속도 벡터를 더한다.
+	                that.y += vector.vy;
+	 
+	                // 대포알의 위치가 매우 낮으면 제거 플래그를 설정한다.
+	                if (that.y > canvas.height - 150) {
+	                    that.removeMe = true;
+	                }
+	            },
+	            // draw() 메소드는 공의 중심 위치에 검은색 원을 그린다.
+	            draw: function () {
+	                ctx.beginPath();
+	                ctx.arc(that.x, that.y, 5, 0, Math.PI * 2, true);
+	                ctx.fill();
+	                ctx.closePath();
+	            }
+	        };
+	    return that;
+	};
+ 
+	var cannon = function (x, y) {
+	    var mx = 0,
+	        my = 0,
+	        angle = 0,
+	        that = {
+	            x: x,
+	            y: y,
+	            angle: 0,
+	            removeMe: false,
+	 
+	            // move() 메소드는 대포가 마우스 커서를 가리키도록 만드는 역할만 한다.
+	            move: function () {
+	                // 마우스 커서에 대한 각도를 계산한다.
+	                angle = Math.atan2(my - that.y, mx - that.x);
+	            },
+	 
+	            draw: function () {
+	                ctx.save();
+	                ctx.lineWidth = 2;
+	                // 원점은 포신의 하단 중간이다.
+	                ctx.translate(that.x, that.y);
+	 
+	                // move() 메소드에서 계산한 결과를 사용하여 회전을 적용한다.
+	                ctx.rotate(angle);
+	                // 사각형으로 포신을 그린다.
+	                ctx.strokeRect(0, -5, 50, 10);
+	 
+	                // 대포의 바퀴를 그린다.
+	                ctx.moveTo(0, 0);
+	                ctx.beginPath();
+	                ctx.arc(0, 0, 15, 0, Math.PI * 2, true);
+	                ctx.fill();
+	                ctx.closePath();
+	                ctx.restore();
+	            }
+	        };
+	 
+	    // 마우스를 클릭하면 대포알을 발사한다.
+	    canvas.onmousedown = function (event) {
+	        // 대포의 위치에서 마우스를 가리키는 벡터를 만든다.
+	        var vec = vector2d(mx - that.x, my - that.y);
+	        vec.normalize(); // 단위 벡터로 만든다.
+	        vec.scale(25);   // 벡터를 25단위만큼 늘린다.
+	        // 새로운 대포알을 만들고 이 객체를 gameObjects 목록에 추가한다.
+	        gameObjects.push(cannonBall(that.x, that.y, vec));
+	    };
+	 
+	    // 캔버스 위에서 움직이는 마우스의 위치를 계속 추적한다.
+	    canvas.onmousemove = function (event) {
+	        var bb = canvas.getBoundingClientRect();
+	        mx = (event.clientX - bb.left);
+	        my = (event.clientY - bb.top);
+	    };
+	 
+	    return that;
+	};
+ 
+	// 캔버스 중간에 수평선이 있도록 파란 하늘과 풀밭을 그린다.
+	// 반투명하게 그려서 이동 물체의 잔상이 남도록 한다.
+	var drawSkyAndGrass = function (){
+		ctx.save();
+		// 투명도를 설정한다.
+		ctx.globalAlpha = 0.4;  
+		// linGrad에 CanvasGradient 객체를 만든다.
+		// 그래디언트 방향은 캔버스 위쪽에서 아래쪽으로 향하도록한다.
+		var linGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+		// 상단에서부터 하늘색을 시작한다.
+		linGrad.addColorStop(0, '#00BFFF');
+		// 중간까지 하얀색으로 변한다.
+		linGrad.addColorStop(0.5, 'white');
+		// 풀밭의 상단을 표현하기 위해 녹색을 시작한다.
+		linGrad.addColorStop(0.5, '#55dd00');
+		// 하단까지 흰색으로 변해간다.
+		linGrad.addColorStop(1, 'white');
+		// CanvasGradient 객체를 채우기 스타일로 사용한다.
+		ctx.fillStyle = linGrad;
+		// 캔버스와 같은 크기의 사각형을 채운다.
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.restore();
+	};
+ 
+        // 게인 객체 목록에 대포를 추가한다.
+        gameObjects.push(cannon(50,canvas.height-150));
+ 
+        // 메인 루프 시간
+        var oldTime = new Date().getTime();       
+        setInterval( function() {
+            var gameObjectsFresh = [];
+            drawSkyAndGrass();          
+            // 여기서 gameObjects[] 배열에 포함된 모든 객체를 훑는다.
+			// 객체를 발견하면 화면에 그리고 옮긴 후 gameObjectsFresh[] 배열에 추가한다.
+			// 단, removeMe 플래그가 설정되어 있으면 추가하지 않는다.
+			// 그 후 gameObjectsFresh[]를 gameObjects[]로 복사하여
+			// 다음 프레임을 준비한다. gameObjects[]에서 삭제된 객체가 없으므로
+			// 삭제된 객체는 더 이상 참조되지 않아 화면에서 사라진다.
+            for(var i=0;i<gameObjects.length;i++) {
+                gameObjects[i].move();
+                gameObjects[i].draw();
+                if ( gameObjects[i].removeMe === false) {
+                    gameObjectsFresh.push(gameObjects[i]);
+                }
+            }
+            gameObjects = gameObjectsFresh;          
+ 
+        },30);
+    };
+</script> 
+ 
+</head>
+	<body>
+		<canvas id = "canvas" width = "640" height = "480" style="border:1px solid">
+			HTML5 캔버스를 지원하지 않습니다.
+		</canvas>
+	</body>
+</html>

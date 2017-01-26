@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>bag</title>
+
+<!--Css에서 가방 모양 설정-->
+<link rel="stylesheet" type="text/css" href="./css/bag.css">
+
+</head>
+<body id=body ondrop="drop(event)"  ondragover="dragOver(event)" >
+
+<!--스크립트에서 드래그앤 드랍 이벤트 설정-->
+<script type="text/javascript" src="./js/bag.js"></script>
+
+<!--테스트 객체 드래그 객체-->
+<img  src="../image/2.jpg" width="50" id="img-1"
+      draggable="true"
+      ondragstart="dragStart(event)">
+
+<!--가방 설정-->
+<table  border="0" id = "inven" class="inven" ondragenter="notenter(event)" ondragover="dragOver(event)">
+    <tr>
+      <td id="bag1" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag2" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag3" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag4" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag5" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag6" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+    </tr>
+    <tr>
+      <td id="bag7" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag8" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag9" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag10" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag11" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+      <td id="bag12" ondrop="drop(event)" ondragover="dragOver(event)"></td>
+    </tr>
+    <!--
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  -->
+</table>
+<!-- 중복 가능 , 밖으로 뺴기 기능,-->
+
+<span> </span>
+</body>
+</html>

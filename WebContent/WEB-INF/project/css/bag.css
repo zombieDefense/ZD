@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.box {
+  border: 1px solid #ccc;
+  width: 50px;
+  padding: 0px;
+  min-height: 50px;
+  margin-bottom: 200px;
+  float:left;/*옆으로 늘려놓음*/
+}
+
+.inven{
+  width: 500px;
+  padding: 0px;
+  height: 175px;
+  border: 1px;
+    /*이미지를 넣음*/
+  background-image:url('../../image/invetory3.png') ;
+  background-size: cover;
+}
+td{
+  width: 83px;
+  height:75px;
+  text-align: center;
+}
