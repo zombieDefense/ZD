@@ -5,7 +5,7 @@
 <style>
 
 canvas {border: 5px solid white;}
-body{overflow: hidden;}<!--바디 내 스크롤바를 없애줌-->
+body{overflow: hidden;} <!--바디 내 스크롤바를 없애줌-->
 
 </style>
 </head>
@@ -21,19 +21,13 @@ body{overflow: hidden;}<!--바디 내 스크롤바를 없애줌-->
 		var zombieTYPE   = [zom01,zom02,zom03,zom04,zom05];
 
 		//player 시작 좌표계
-		var player_x = 600;
-		var player_y = 350;
-
-		var player_xx = 600;
-		var player_yy = 350;
-
-		var back_x=0;
-		var back_y=0;
+		var player_x = 1000;
+		var player_y = 500;
 
 		var player_item1 =0;		// 옷 착용 시 변경되는 이속
 		var player_item2 =0;		// 신발 착용 시 변경되는 이속
-		var player_speedbase  =10;		// 캐릭터의 기본 이동속도
-		var player_speed = player_speedbase+player_item1+player_item2;
+		var player_base  =5;		// 캐릭터의 기본 이동속도
+		var player_speed = player_base+player_item1+player_item2;
 
 
 		var zombie_DMG1 = 1;

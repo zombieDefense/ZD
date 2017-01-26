@@ -70,55 +70,35 @@ function realtime(){
 		draw_player();
 		drawHP();
 		drawHP2();
-
-		moniter_clear();
 		}
 	if (HPgauge2 <= -80)
 	died();
 }
 
-function  moniter_clear(){
-//	ctx.clearRect(0, 0, 2000, 330);				// 상단 클리어
-	ctx.clearRect(0, 750, 1600, 750);				// 하단 클리어
-//	ctx.clearRect(0, 0, 370, 1500);				// 좌측 클리어
-	ctx.clearRect(1200, 0, 900, 1500);			// 우측 클리어
-}
 
 function update() {
 			var press = false;
 			if (keyPressed[38])
-			if(back_y<100)			// 캐릭터가 캔버스 y축에서 벗어나지 못하게
-			{	back_y += player_speed;	press = true;
-					for(var idx=0; idx<zombieLIST.length; idx++){
-						zombieLIST[idx].Y+=player_speed;
-					}} // 상
+			if(player_y>190)			// 캐릭터가 캔버스 y축에서 벗어나지 못하게
+			{	player_y -= player_speed;	press = true;	} // 상
 
 			if (keyPressed[40])
-			if(back_y>-800)			// 캐릭터가 캔버스 y축에서 벗어나지 못하게
-			{	back_y -= player_speed;	press = true;
-				for(var idx=0; idx<zombieLIST.length; idx++){
-					zombieLIST[idx].Y-=player_speed;
-				}} // 하
+			if(player_y<1150)			// 캐릭터가 캔버스 y축에서 벗어나지 못하게
+			{	player_y += player_speed;	press = true;	} // 하
 
 			if (keyPressed[37])
-			if(back_x<400)			// 캐릭터가 캔버스 x축에서 벗어나지 못하게
-			{	back_x += player_speed;	press = true;
-				for(var idx=0; idx<zombieLIST.length; idx++){
-					zombieLIST[idx].X+=player_speed;
-				}} // 좌
+			if(player_x>210)			// 캐릭터가 캔버스 x축에서 벗어나지 못하게
+			{	player_x -= player_speed;	press = true;	} // 좌
 
 			if (keyPressed[39])
-			if(back_x>-1120)			// 캐릭터가 캔버스 x축에서 벗어나지 못하게
-			{	back_x -= player_speed;	press = true;
-				for(var idx=0; idx<zombieLIST.length; idx++){
-					zombieLIST[idx].X-=player_speed;
-				}} // 우
+			if(player_x<1715)			// 캐릭터가 캔버스 x축에서 벗어나지 못하게
+			{	player_x += player_speed;	press = true;	} // 우
 }
 
 
 function draw_player() {	// 플레이어의 시작 위치 및 width, height 설정
 	ctx.beginPath();
-	ctx.drawImage(player, 600, 350, 70, 100);
+	ctx.drawImage(player, player_x, player_y, 70, 100);
 	ctx.stroke();
 }
 
@@ -133,16 +113,15 @@ function draw_zombies() {	// 좀비들의 시작 위치 및 width, height 설정
 
 function draw_background() { // MAIN BACKGROUND 그림
 	//ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스를 깔끔한 상태로 유지보수
-
 	ctx.beginPath();
-	ctx.drawImage(ui_interface, back_x, back_y,2000,1500);
+	ctx.drawImage(ui_interface, 0, 0,2000,1500);
 	ctx.stroke();
 }
 
 function draw_background2() { // UI 그림
 	//ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.beginPath();
-	ctx.drawImage(ui_interface2, 0, 0, 1200, 750);
+	ctx.drawImage(ui_interface2, player_x-600, player_y-310, 1200, 750);
 	ctx.stroke();
 }
 
@@ -154,7 +133,6 @@ function drawHP() {		// 초록색 HP
 function drawHP2() {	// 빨강색 HP
 	ctx.fillStyle = HPCol2;
 	ctx.fillRect(player_x+75, player_y-16, HPgauge2, 12);
-
 }
 
 function died() {		// 유저 HP 없을 시 DIED 창 그림 구현
