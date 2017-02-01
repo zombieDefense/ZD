@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var day = 1; // 날자 구분
+	var now_time = 0; // 현재시간
+
+	// 시간 계산
+	setInterval(function() {
+		now_time++;
+		if (now_time==10){
+			day++;
+			now_time=0;
+		}
+	}, 100)
+</script>
+<style>
+/* 메인 스타일 */
+#info {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	width: 250px;
+	height: 100px;
+	background-color: lightpink;
+}
+
+#time {
+	position: absolute;
+	left: 280px;
+	top: 20px;
+	width: 180px;
+	height: 100px;
+	background-color: yellow;
+}
+
+#sel {
+	position: absolute;
+	left: 470px;
+	top: 20px;
+	width: 250px;
+	height: 100px;
+	background-color: lightblue;
+}
+
+#map {
+	position: absolute;
+	left: 20px;
+	top: 140px;
+	width: 700px;
+	height: 700px;
+	background-color: lightblue;
+}
+
+#item {
+	position: absolute;
+	left: 740px;
+	top: 20px;
+	width: 700px;
+	height: 820px;
+	background-color: red;
+}
+
+#shop {
+	position: absolute;
+	left: 740px;
+	top: 20px;
+	width: 700px;
+	height: 820px;
+	background-color: green;
+}
+
+#last {
+	position: absolute;
+	left: 740px;
+	top: 20px;
+	width: 700px;
+	height: 820px;
+	background-color: purple;
+}
+/* info 스타일 */
+#face {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 80px;
+	height: 80px;
+}
+
+#bhp {
+	position: absolute;
+	left: 100px;
+	top: 20px;
+	width: 140px;
+	height: 20px;
+	background: lightgray;
+}
+
+#hp {
+	position: absolute;
+	left: 100px;
+	top: 20px;
+	width: 100px;
+	height: 20px;
+	background: red;
+}
+
+#bmp {
+	position: absolute;
+	left: 100px;
+	top: 60px;
+	width: 140px;
+	height: 20px;
+	background: lightgray;
+}
+
+#mp {
+	position: absolute;
+	left: 100px;
+	top: 60px;
+	width: 100px;
+	height: 20px;
+	background: blue;
+}
+/* time 스타일 */
+#timg {
+	position: absolute;
+	left: 10px;
+	top: -80px;
+	width: 160px;
+	height: 160px;
+	azim
+}
+
+/* sel 스타일 */
+#bitem {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 40px;
+	height: 80px;
+}
+
+#bshop {
+	position: absolute;
+	left: 60px;
+	top: 10px;
+	width: 40px;
+	height: 35px;
+}
+
+#blast {
+	position: absolute;
+	left: 60px;
+	top: 55px;
+	width: 40px;
+	height: 35px;
+}
+
+#lq {
+	position: absolute;
+	left: 110px;
+	top: 10px;
+	width: 60px;
+	height: 80px;
+	background: orange;
+}
+
+#rq {
+	position: absolute;
+	left: 180px;
+	top: 10px;
+	width: 60px;
+	height: 80px;
+	background: gold;
+}
+
+#lqimg {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	width: 50px;
+	height: 70px;
+}
+
+#rqimg {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	width: 50px;
+	height: 70px;
+}
+</style>
+
+</head>
+<body>
+	<div id="info">
+		<img id="face" src="./test.png">
+		<div id="bhp"></div>
+		<div id="hp"></div>
+		<div id="bmp"></div>
+		<div id="mp"></div>
+	</div>
+	<div id="time">
+		<img id="timg" src="./time.png">
+	</div>
+	<div id="sel">
+		<button id="bitem">인벤</button>
+		<button id="bshop">상</button>
+		<button id="blast">아</button>
+		<div id="lq">
+			<img id="lqimg" src="./test.png">
+		</div>
+		<div id="rq">
+			<img id="rqimg" src="./test.png">
+		</div>
+	</div>
+	<div id="map">map</div>
+	<div id="item">itrm</div>
+	<div id="shop">shop</div>
+	<div id="last">last</div>
+</body>
+</html>
